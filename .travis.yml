@@ -1,0 +1,15 @@
+language: go
+
+env:
+  - GO111MODULE=on
+
+go:
+  - 1.14.x
+
+before_install:
+  - go get -v github.com/mattn/goveralls
+  - go get -u
+
+script:
+  - go build .
+  - goveralls -v -race -service=travis-ci
