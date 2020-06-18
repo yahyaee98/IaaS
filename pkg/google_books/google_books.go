@@ -12,18 +12,20 @@ import (
 // We could even publish this as a library.
 type GoogleBooks struct {
 	resultLimit int
+	baseUrl     string
 	apiKey      string
 	client      *http.Client
 	log         func(msg string, keysAndValues ...interface{})
 }
 
-func NewGoogleBooks(resultLimit int, apiKey string, timeout time.Duration, log func(msg string, keysAndValues ...interface{})) *GoogleBooks {
+func NewGoogleBooks(resultLimit int, baseUrl, apiKey string, timeout time.Duration, log func(msg string, keysAndValues ...interface{})) *GoogleBooks {
 	client := http.Client{
 		Timeout: timeout,
 	}
 
 	return &GoogleBooks{
 		resultLimit: resultLimit,
+		baseUrl:     baseUrl,
 		apiKey:      apiKey,
 		client:      &client,
 		log:         log,
@@ -31,7 +33,7 @@ func NewGoogleBooks(resultLimit int, apiKey string, timeout time.Duration, log f
 }
 
 func (gb GoogleBooks) Search(search string) (*Response, error) {
-	url := fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=initiale:%s&key=%s", search, gb.apiKey)
+	url := fmt.Sprintf("%s?q=initiale:%s&key=%s", gb.baseUrl, search, gb.apiKey)
 	resp, err := gb.client.Get(url)
 
 	defer func() {

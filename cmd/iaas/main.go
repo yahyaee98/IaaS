@@ -48,6 +48,7 @@ func main() {
 		upstream.NewGoogleBooksUpstream(
 			google_books.NewGoogleBooks(
 				c.ResultLimitPerContent,
+				"https://www.googleapis.com/books/v1/volumes",
 				c.GoogleBooksApiKey,
 				time.Duration(c.UpstreamTimeout)*time.Second,
 				log.Errorw,
@@ -57,6 +58,7 @@ func main() {
 		upstream.NewItunesUpstream(
 			itunes.NewItunes(
 				c.ResultLimitPerContent,
+				"https://itunes.apple.com/search",
 				time.Duration(c.UpstreamTimeout)*time.Second,
 				log.Errorw,
 			),
