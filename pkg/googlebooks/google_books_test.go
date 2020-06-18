@@ -13,7 +13,7 @@ func TestGoogleBooksCallsRightUrl(t *testing.T) {
 			func(rw http.ResponseWriter, req *http.Request) {
 				assert.Equal(
 					t,
-					"/?q=initiale:some_search&key=the_key",
+					"/?q=intitle:some_search&key=the_key",
 					req.URL.String(),
 				)
 				_, _ = rw.Write([]byte(`{}`))

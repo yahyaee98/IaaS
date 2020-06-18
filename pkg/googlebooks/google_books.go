@@ -35,7 +35,7 @@ func NewGoogleBooks(resultLimit int, baseURL, apiKey string, timeout time.Durati
 
 // Search fetches response from API.
 func (gb GoogleBooks) Search(search string) (*Response, error) {
-	url := fmt.Sprintf("%s?q=initiale:%s&key=%s", gb.baseURL, search, gb.apiKey)
+	url := fmt.Sprintf("%s?q=intitle:%s&key=%s", gb.baseURL, search, gb.apiKey)
 	resp, err := gb.client.Get(url)
 
 	defer func() {

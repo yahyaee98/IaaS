@@ -7,6 +7,9 @@ compile:
 run: compile
 	bin/$(APP)
 
+test:
+	go test -race ./...
+
 docker:
 	docker build \
           -t $(APP):$(CI_COMMIT_REF_SLUG) .
