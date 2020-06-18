@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build -o ./bin/iaas ./cmd/iaas
+RUN GOOS=linux GARCH=amd64 CGO_ENABLED=0 go build -o ./bin/iaas .
 
 FROM alpine:3
 
