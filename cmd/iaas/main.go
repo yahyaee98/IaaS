@@ -7,6 +7,7 @@ import (
 	"iaas/internal/api"
 	"iaas/internal/cache"
 	"iaas/internal/log"
+	"iaas/internal/metric"
 	"iaas/internal/repository"
 	"iaas/internal/upstream"
 	"iaas/pkg/google_books"
@@ -53,7 +54,7 @@ func main() {
 				time.Duration(c.UpstreamTimeout)*time.Second,
 				log.Errorw,
 			),
-			func(duration time.Duration) {},
+			metric.GoogleBooksResponseTime,
 		),
 		upstream.NewItunesUpstream(
 			itunes.NewItunes(
@@ -62,7 +63,7 @@ func main() {
 				time.Duration(c.UpstreamTimeout)*time.Second,
 				log.Errorw,
 			),
-			func(duration time.Duration) {},
+			metric.ItunesResponseTime,
 		),
 	}
 

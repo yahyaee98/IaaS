@@ -1,26 +1,34 @@
 package upstream
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
 	"iaas/internal/data"
 	"iaas/pkg/google_books"
-	"time"
 )
 
 type GoogleBooksUpstream struct {
 	gb *google_books.GoogleBooks
-	mr MetricReport
+	o  prometheus.Observer
 }
 
-func NewGoogleBooksUpstream(gb *google_books.GoogleBooks, mr MetricReport) *GoogleBooksUpstream {
-	return &GoogleBooksUpstream{gb: gb, mr: mr}
+func NewGoogleBooksUpstream(gb *google_books.GoogleBooks, o prometheus.Observer) *GoogleBooksUpstream {
+	return &GoogleBooksUpstream{gb: gb, o: o}
 }
 
 func (g GoogleBooksUpstream) Search(search string) ([]*data.Item, error) {
-	response, err := g.gb.Search(search)
+	var err error
+	var response *google_books.Response
+
+	reportDuration(
+		func() {
+			response, err = g.gb.Search(search)
+		},
+		g.o,
+	)
+
 	if err != nil {
 		return nil, err
 	}
-	g.mr(time.Second) //TODO implement
 
 	var items []*data.Item
 

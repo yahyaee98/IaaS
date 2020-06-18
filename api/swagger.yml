@@ -45,7 +45,7 @@ paths:
 
   /metrics:
     get:
-      summary: "This route returns metrics readable by Prometheus."
+      summary: "This route returns metric readable by Prometheus."
       responses:
         "200":
           description: "Metrics are returned in a readable format for Prometheus."

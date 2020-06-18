@@ -1,26 +1,34 @@
 package upstream
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
 	"iaas/internal/data"
 	"iaas/pkg/itunes"
-	"time"
 )
 
 type ItunesUpstream struct {
 	itunes *itunes.Itunes
-	mr     MetricReport
+	o      prometheus.Observer
 }
 
-func NewItunesUpstream(itunes *itunes.Itunes, mr MetricReport) *ItunesUpstream {
-	return &ItunesUpstream{itunes: itunes, mr: mr}
+func NewItunesUpstream(itunes *itunes.Itunes, o prometheus.Observer) *ItunesUpstream {
+	return &ItunesUpstream{itunes: itunes, o: o}
 }
 
 func (i ItunesUpstream) Search(search string) ([]*data.Item, error) {
-	response, err := i.itunes.Search(search)
+	var err error
+	var response *itunes.Response
+
+	reportDuration(
+		func() {
+			response, err = i.itunes.Search(search)
+		},
+		i.o,
+	)
+
 	if err != nil {
 		return nil, err
 	}
-	i.mr(time.Second) //TODO implement
 
 	var items []*data.Item
 
