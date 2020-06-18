@@ -13,6 +13,7 @@ import (
 	"time"
 )
 
+// Repository is responsible for fetching items from upstreams/cache
 type Repository interface {
 	GetItems(search string) ([]*data.Item, error)
 }
@@ -22,7 +23,8 @@ type repository struct {
 	cache     cache.Cache
 }
 
-func NewRepository(upstreams []upstream.Upstream, cache cache.Cache) *repository {
+// NewRepository returns an implementation of the Repository interface
+func NewRepository(upstreams []upstream.Upstream, cache cache.Cache) Repository {
 	return &repository{
 		upstreams: upstreams,
 		cache:     cache,

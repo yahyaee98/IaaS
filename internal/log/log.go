@@ -4,6 +4,7 @@ var (
 	log Logger
 )
 
+// Logger is an interface aimed to wrap the logger that we want to use.
 type Logger interface {
 	Infow(format string, args ...interface{})
 	Errorw(format string, args ...interface{})
@@ -11,6 +12,7 @@ type Logger interface {
 	Sync() error
 }
 
+// NewLogger returnes a Logger instance.
 func NewLogger() Logger {
 	// This method helps us to easily change the log implementation anytime we wanted to.
 	return newZapLogger()

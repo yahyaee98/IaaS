@@ -10,7 +10,7 @@ paths:
   /results:
     get:
       summary: "Get both book and music results together"
-      description: "This route will cause the backend to first check if it has the results cached, otherwise it will make requests to Google Books and ITunes to gather results."
+      description: "This route will cause the backend to first check if it has the results cached, otherwise it will make requests to Google Books and iTunes to gather results."
       produces:
         - "application/json"
       parameters:

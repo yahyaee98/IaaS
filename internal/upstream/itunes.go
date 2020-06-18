@@ -6,15 +6,18 @@ import (
 	"iaas/pkg/itunes"
 )
 
+// ItunesUpstream is the adapter to Itunes.
 type ItunesUpstream struct {
 	itunes *itunes.Itunes
 	o      prometheus.Observer
 }
 
+// NewItunesUpstream returns a new ItunesUpstream.
 func NewItunesUpstream(itunes *itunes.Itunes, o prometheus.Observer) *ItunesUpstream {
 	return &ItunesUpstream{itunes: itunes, o: o}
 }
 
+// Search returns data fetched from the Itunes client and also cares about metrics.
 func (i ItunesUpstream) Search(search string) ([]*data.Item, error) {
 	var err error
 	var response *itunes.Response

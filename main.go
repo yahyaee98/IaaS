@@ -10,7 +10,7 @@ import (
 	"iaas/internal/metric"
 	"iaas/internal/repository"
 	"iaas/internal/upstream"
-	"iaas/pkg/google_books"
+	"iaas/pkg/googlebooks"
 	"iaas/pkg/itunes"
 	"os"
 	"os/signal"
@@ -23,7 +23,7 @@ type Configuration struct {
 	RedisAddress            string `envconfig:"REDIS_ADDRESS" default:"127.0.0.1:6379"`
 	RedisPassword           string `envconfig:"REDIS_PASSWORD" default:""`
 	RedisDb                 int    `envconfig:"REDIS_DB" default:"0"`
-	GoogleBooksApiKey       string `envconfig:"GOOGLE_BOOKS_API_KEY" default:""`
+	GoogleBooksAPIKey       string `envconfig:"GOOGLE_BOOKS_API_KEY" default:""`
 	ResultLimitPerContent   int    `envconfig:"RESULT_LIMIT_PER_CONTENT" default:"5"`
 	UpstreamTimeout         int    `envconfig:"UPSTREAM_TIMEOUT" default:"5"`
 	GracefulShutdownTimeout int    `envconfig:"GRACEFUL_SHUTDOWN_TIMEOUT" default:"15"` // in seconds
@@ -47,10 +47,10 @@ func main() {
 
 	upstreams := []upstream.Upstream{
 		upstream.NewGoogleBooksUpstream(
-			google_books.NewGoogleBooks(
+			googlebooks.NewGoogleBooks(
 				c.ResultLimitPerContent,
 				"https://www.googleapis.com/books/v1/volumes",
-				c.GoogleBooksApiKey,
+				c.GoogleBooksAPIKey,
 				time.Duration(c.UpstreamTimeout)*time.Second,
 				log.Errorw,
 			),
