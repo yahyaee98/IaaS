@@ -1,0 +1,85 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "\"IaaS\" API documentation"
+host: "127.0.0.1"
+basePath: "/api"
+schemes:
+  - "http"
+paths:
+  /results:
+    get:
+      summary: "Get both book and music results together"
+      description: "This route will cause the backend to first check if it has the results cached, otherwise it will make requests to Google Books and ITunes to gather results."
+      produces:
+        - "application/json"
+      parameters:
+        - name: "search"
+          in: "query"
+          description: "The search term that you are looking results for. Should be at least 3 characters."
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "Successful response"
+          schema:
+            $ref: "#/definitions/ResultResponse"
+        "400":
+          description: "Validation error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        "500":
+          description: "Something bad has happened on the server"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /health:
+    get:
+      summary: "Get health of the application instance. Useful for health checks."
+      description: "This route will return a 200 if the instance is healthy and ready to accept requests, otherwise a 500 will be returned."
+      responses:
+        "200":
+          description: "Instance is healthy and can accept requests"
+        "500":
+          description: "Instance is not healthy and is not able to accept requests"
+
+  /metrics:
+    get:
+      summary: "This route returns metrics readable by Prometheus."
+      responses:
+        "200":
+          description: "Metrics are returned in a readable format for Prometheus."
+
+definitions:
+  ResultResponse:
+    type: "object"
+    properties:
+      items:
+        type: "array"
+        items:
+          $ref: '#/definitions/ResultItem'
+  ResultItem:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+        description: "Music/Book's name"
+        example: "Some book or music name"
+      type:
+        type: "string"
+        example: "book"
+        enum:
+          - "book"
+          - "music"
+      authors:
+        type: "array"
+        items:
+          type: "string"
+          example: "Amos Lee"
+
+  ErrorResponse:
+    type: "object"
+    properties:
+      error:
+        type: "string"
+        default: "some meaningful message"

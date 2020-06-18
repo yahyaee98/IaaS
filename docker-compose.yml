@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  iaas:
+    build: ./
+    environment:
+      - PORT=8080
+      - REDIS_ADDRESS=redis:6379
+      - REDIS_PASSWORD=
+      - REDIS_DB=0
+      - GOOGLE_BOOKS_API_KEY=
+      - RESULT_LIMIT_PER_CONTENT=5
+      - UPSTREAM_TIMEOUT=5
+      - GRACEFUL_SHUTDOWN_TIMEOUT=15
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - 6379:6379
