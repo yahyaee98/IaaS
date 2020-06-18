@@ -7,10 +7,12 @@ import (
 	"time"
 )
 
+// RedisCache is a cache implementation which uses Redis as the backend.
 type RedisCache struct {
 	rdb *redis.Client
 }
 
+// NewRedisCache constructs a new RedisCache.
 func NewRedisCache(addr, password string, db int) *RedisCache {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     addr,
@@ -23,6 +25,7 @@ func NewRedisCache(addr, password string, db int) *RedisCache {
 	}
 }
 
+// Get fetches key from Redis.
 func (r RedisCache) Get(key string) (cached interface{}, found bool) {
 	val, err := r.rdb.Get(context.Background(), key).Result()
 	if err != nil {
@@ -36,6 +39,7 @@ func (r RedisCache) Get(key string) (cached interface{}, found bool) {
 	return val, true
 }
 
+// Set sets data to Redis.
 func (r RedisCache) Set(key string, value interface{}, expiration time.Duration) {
 	err := r.rdb.Set(context.Background(), key, value, expiration).Err()
 	if err != nil {

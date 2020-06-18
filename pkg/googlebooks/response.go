@@ -1,9 +1,11 @@
-package google_books
+package googlebooks
 
+// Response is the struct returned by the Google Books API.
 type Response struct {
 	Items []Item `json:"items"`
 }
 
+// Item is an entity returned by Google Books API.
 type Item struct {
 	VolumeInfo volumeInfo `json:"volumeInfo"`
 }

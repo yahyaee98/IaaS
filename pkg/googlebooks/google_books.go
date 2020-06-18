@@ -1,4 +1,4 @@
-package google_books
+package googlebooks
 
 import (
 	"encoding/json"
@@ -12,28 +12,30 @@ import (
 // We could even publish this as a library.
 type GoogleBooks struct {
 	resultLimit int
-	baseUrl     string
+	baseURL     string
 	apiKey      string
 	client      *http.Client
 	log         func(msg string, keysAndValues ...interface{})
 }
 
-func NewGoogleBooks(resultLimit int, baseUrl, apiKey string, timeout time.Duration, log func(msg string, keysAndValues ...interface{})) *GoogleBooks {
+// NewGoogleBooks returns a new GoogleBooks instance.
+func NewGoogleBooks(resultLimit int, baseURL, apiKey string, timeout time.Duration, log func(msg string, keysAndValues ...interface{})) *GoogleBooks {
 	client := http.Client{
 		Timeout: timeout,
 	}
 
 	return &GoogleBooks{
 		resultLimit: resultLimit,
-		baseUrl:     baseUrl,
+		baseURL:     baseURL,
 		apiKey:      apiKey,
 		client:      &client,
 		log:         log,
 	}
 }
 
+// Search fetches response from API.
 func (gb GoogleBooks) Search(search string) (*Response, error) {
-	url := fmt.Sprintf("%s?q=initiale:%s&key=%s", gb.baseUrl, search, gb.apiKey)
+	url := fmt.Sprintf("%s?q=initiale:%s&key=%s", gb.baseURL, search, gb.apiKey)
 	resp, err := gb.client.Get(url)
 
 	defer func() {

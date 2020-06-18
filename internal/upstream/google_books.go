@@ -3,21 +3,24 @@ package upstream
 import (
 	"github.com/prometheus/client_golang/prometheus"
 	"iaas/internal/data"
-	"iaas/pkg/google_books"
+	"iaas/pkg/googlebooks"
 )
 
+// GoogleBooksUpstream is the adapter to GoogleBooks.
 type GoogleBooksUpstream struct {
-	gb *google_books.GoogleBooks
+	gb *googlebooks.GoogleBooks
 	o  prometheus.Observer
 }
 
-func NewGoogleBooksUpstream(gb *google_books.GoogleBooks, o prometheus.Observer) *GoogleBooksUpstream {
+// NewGoogleBooksUpstream returns a new GoogleBooksUpstream instance.
+func NewGoogleBooksUpstream(gb *googlebooks.GoogleBooks, o prometheus.Observer) *GoogleBooksUpstream {
 	return &GoogleBooksUpstream{gb: gb, o: o}
 }
 
+// Search returns data fetched from the GoogleBooks client and also cares about metrics.
 func (g GoogleBooksUpstream) Search(search string) ([]*data.Item, error) {
 	var err error
-	var response *google_books.Response
+	var response *googlebooks.Response
 
 	reportDuration(
 		func() {

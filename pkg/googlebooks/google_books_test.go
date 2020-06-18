@@ -1,4 +1,4 @@
-package google_books
+package googlebooks
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -24,7 +24,7 @@ func TestGoogleBooksCallsRightUrl(t *testing.T) {
 
 	gb := &GoogleBooks{
 		resultLimit: 1,
-		baseUrl:     server.URL,
+		baseURL:     server.URL,
 		apiKey:      "the_key",
 		client:      server.Client(),
 		log: func(msg string, keysAndValues ...interface{}) {

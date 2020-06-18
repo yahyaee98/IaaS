@@ -24,7 +24,7 @@ func TestItunesCallsRightUrl(t *testing.T) {
 
 	gb := &Itunes{
 		resultLimit: 1,
-		baseUrl:     server.URL,
+		baseURL:     server.URL,
 		client:      server.Client(),
 		log: func(msg string, keysAndValues ...interface{}) {
 
