@@ -11,3 +11,8 @@ docker:
 	docker build \
           -t $(APP):$(CI_COMMIT_REF_SLUG) .
 
+check-golint:
+	which golint || (go get -u golang.org/x/lint/golint)
+
+lint: check-golint
+	find . -type f -name "*.go" | xargs -n 1 -I R golint -set_exit_status R
